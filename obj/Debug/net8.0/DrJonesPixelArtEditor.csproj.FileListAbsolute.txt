@@ -37,3 +37,4 @@ C:\DrJonesPixelArtEditor\obj\Debug\net8.0\refint\DrJonesPixelArtEditor.dll
 C:\DrJonesPixelArtEditor\obj\Debug\net8.0\DrJonesPixelArtEditor.pdb
 C:\DrJonesPixelArtEditor\obj\Debug\net8.0\DrJonesPixelArtEditor.genruntimeconfig.cache
 C:\DrJonesPixelArtEditor\obj\Debug\net8.0\ref\DrJonesPixelArtEditor.dll
+C:\DrJonesPixelArtEditor\obj\Debug\net8.0\DrJonesPixelArtEditor.sourcelink.json
