@@ -207,7 +207,9 @@ class ToolSelect {
         }, ...Object.keys(tools).map(name => elt("option", {
             selected: name == state.tool
         }, name)));
-        this.dom = elt("label", null, "Tool: ", this.select);
+        this.dom = elt("label", {
+            className: "tool-label"
+        }, "Tool: ", this.select);
     }
     syncState(state) {
         this.select.value = state.tool;
@@ -224,7 +226,9 @@ class ColorSelect {
             value: state.color, 
             onchange: () => dispatch({color: this.input.value})
         });
-        this.dom = elt("label", null, "Color!: ", this.input);
+        this.dom = elt("label", {
+            className: "tool-label"
+        }, "Color!: ", this.input);
     }
     syncState(state) {
         this.input.value = state.color;
@@ -468,6 +472,7 @@ class UndoButton {
         this.dom = elt("button", {
             id: "undo-button",
             onclick: () => dispatch({undo: true}),
+            className: "undo-btn",
             disabled: state.done.length == 0
         }, "UNDO")
     }
