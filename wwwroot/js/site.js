@@ -371,7 +371,8 @@ class SaveButton {
 class LoadButton {
     constructor(_, {dispatch}) {
         this.dom = elt("button", {
-            onclick: () => startLoad(dispatch)
+            onclick: () => startLoad(dispatch),
+            className: "load-btn"
         }, "LOAD IMAGE")
     }
     syncState() {}
