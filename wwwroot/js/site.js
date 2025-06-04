@@ -183,9 +183,10 @@ class PixelEditor {
         });
         this.controls = controls.map(
             Control => new Control(state, config));
-        this.dom = elt("div", {tabIndex: 0}, this.canvas.dom, elt("br"), 
+        this.dom = elt("div", {tabIndex: 0}, 
                         ...this.controls.reduce(
-                            (a, c) => a.concat(" ", c.dom), []));
+                            (a, c) => a.concat(" ", c.dom), []),
+                        elt("br"), this.canvas.dom);
     }
     syncState(state) {
         this.state = state;

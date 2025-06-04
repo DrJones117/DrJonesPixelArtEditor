@@ -21,6 +21,18 @@ body {
   margin-bottom: 60px;
 }
 
+/* General Styles */
+
+hr {
+    display: block;
+    height: 5px;
+    border: 0;
+    border-top: 1px solid #000000;
+    margin: 1em 0;
+    padding: 0;
+}
+
+
 /* Tool Styles */
 
 .tool-label {
