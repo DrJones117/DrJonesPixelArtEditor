@@ -117,10 +117,11 @@ PictureCanvas.prototype.mouse = function(downEvent, onDown) {
             this.dom.removeEventListener("mousemove", move);
         } else {
             let newPosition = pointerPosition(moveEvent, this.dom);
-            if (newPosition.x == lastPosition.x) return;
+            if (newPosition.x == lastPosition.x && newPosition.y == lastPosition.y) return;
             let xDistance = newPosition.x - lastPosition.x;
             let yDistance = newPosition.y - lastPosition.y;
             let steps = Math.max(Math.abs(xDistance), Math.abs(yDistance));
+            // let yDistance = newPosition.y - lastPosition.y;
             for (let i = 1; i <= steps; i++) {
                 let x = Math.round(lastPosition.x + (xDistance * i) / steps);
                 let y = Math.round(lastPosition.y + (yDistance * i) / steps);
@@ -186,7 +187,7 @@ class PixelEditor {
         this.dom = elt("div", {tabIndex: 0}, 
                         ...this.controls.reduce(
                             (a, c) => a.concat(" ", c.dom), []),
-                        elt("br"), this.canvas.dom);
+                        elt("br"), elt ("br"), elt ("br"), this.canvas.dom);
     }
     syncState(state) {
         this.state = state;
@@ -197,6 +198,24 @@ class PixelEditor {
     }
 }
 
+
+// Creates a dropdown select menu listin the available canvas sizes.
+class CanvasSizeSelect {
+    constructor(state, {sizes, dispatch}) {
+        this.select = elt("select", {
+            id: "canvas-size",
+            onchange: () => dispatch({size: this.select.value})
+        }, ...sizes.map(size => elt("option", {
+            selected: size == state.size
+        }, size)));
+        this.dom = elt("label", {
+            className: "tool-label"
+        }, "Canvas Size: ", this.select);
+    }
+    syncState(state) {
+        this.select.value = state.size;
+    }
+}
 
 // Creates a dropdown select menu listing the available tools.
 // Updates the state to reflect the tool the user has chosen.
@@ -490,11 +509,12 @@ class UndoButton {
 const startState = {
     tool: "draw", // Sets default tool to "draw".
     color: "#000000", // Sets the default drawing color to black.
-    picture: Picture.empty(60, 30, "#f0f0f0"), // Sets the default background color of the canvas. (grey)
+    picture: Picture.empty(30, 30, "#f0f0f0"), // Sets the default background color of the canvas. (grey)
     done: [], // Empty's the Undo history.
     doneAt: 0 // Sets the last time of the last undoable undoable action.
 };
 
+const canvasSizes = ["30x30", "60x60", "90x90"];
 
 // Sets up the list of tools for the user.
 const baseTools = {draw, fill, rectangle, circle, pick};
@@ -502,14 +522,15 @@ const baseTools = {draw, fill, rectangle, circle, pick};
 
 // Sets up the list of UI controls for the user.
 const baseControls = [
-    ToolSelect, ColorSelect, SaveButton, LoadButton, UndoButton
+    CanvasSizeSelect, ToolSelect, ColorSelect, SaveButton, LoadButton, UndoButton
 ];
 
 
 // Starts the PixelEditor's engine.
 // Hands all of the components to the PixelEditor class.
-function startPixelEditor({state = startState, tools= baseTools, controls = baseControls}) {
+function startPixelEditor({state = startState, sizes= canvasSizes,  tools= baseTools, controls = baseControls}) {
     let app = new PixelEditor(state, {
+        sizes,
         tools,
         controls,
         dispatch(action) {
