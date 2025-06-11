@@ -121,7 +121,6 @@ PictureCanvas.prototype.mouse = function(downEvent, onDown) {
             let xDistance = newPosition.x - lastPosition.x;
             let yDistance = newPosition.y - lastPosition.y;
             let steps = Math.max(Math.abs(xDistance), Math.abs(yDistance));
-            // let yDistance = newPosition.y - lastPosition.y;
             for (let i = 1; i <= steps; i++) {
                 let x = Math.round(lastPosition.x + (xDistance * i) / steps);
                 let y = Math.round(lastPosition.y + (yDistance * i) / steps);
@@ -200,8 +199,27 @@ class PixelEditor {
 
 
 // Creates a dropdown select menu listin the available canvas sizes.
+// class CanvasSizeSelect {
+//     constructor(state, {sizes, dispatch}) {
+//         this.select = elt("select", {
+//             id: "canvas-size",
+//             onchange: () => dispatch({size: this.select.value})
+//         }, ...sizes.map(size => elt("option", {
+//             selected: size == state.size
+//         }, size)));
+//         this.dom = elt("label", {
+//             className: "tool-label"
+//         }, "Canvas Size: ", this.select);
+//     }
+//     syncState(state) {
+//         this.select.value = state.size;
+//     }
+// }
+
 class CanvasSizeSelect {
     constructor(state, {sizes, dispatch}) {
+        this.height = 30;
+        this.width = 30;
         this.select = elt("select", {
             id: "canvas-size",
             onchange: () => dispatch({size: this.select.value})
@@ -506,7 +524,9 @@ class UndoButton {
 
 
 // Sets all of the default settings for the application.
+
 const startState = {
+    size: "30x30",
     tool: "draw", // Sets default tool to "draw".
     color: "#000000", // Sets the default drawing color to black.
     picture: Picture.empty(30, 30, "#f0f0f0"), // Sets the default background color of the canvas. (grey)
