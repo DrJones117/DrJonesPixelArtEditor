@@ -218,11 +218,18 @@ class PixelEditor {
 
 class CanvasSizeSelect {
     constructor(state, {sizes, dispatch}) {
-        this.height = 30;
-        this.width = 30;
         this.select = elt("select", {
             id: "canvas-size",
-            onchange: () => dispatch({size: this.select.value})
+            onchange: () => {
+                const [w, h] = this.select.value.split("x").map(Number);
+                let newPicture = Picture.empty(w, h, "#f0f0f0");
+                dispatch({
+                    size: this.select.value,
+                    picture: newPicture,
+                    done: [],
+                    doneAt: 0
+                });
+            }
         }, ...sizes.map(size => elt("option", {
             selected: size == state.size
         }, size)));
@@ -234,6 +241,23 @@ class CanvasSizeSelect {
         this.select.value = state.size;
     }
 }
+
+// function clearCanvas({x, y}, dispatch) {
+//     let backgroundColor = "#f0f0f0";
+//     let drawn = [{x, y, color: "#f0f0f0"}];
+//     for (let done = 0; done < drawn.length; done++) {
+//         for (let {dx, dy} of around) { // Here's where we use the directions defined by the "around" variable.
+//             let x = drawn[done].x + dx, y = drawn[done].y + dy;
+//             if (x >= 0 && x < state.picture.width &&
+//                 y >= 0 && y < state.picture.height &&
+//                 state.picture.pixel (x, y) == backgroundColor &&
+//                 !drawn.some(p => p.x == x && p.y == y)) {
+//                 drawn.push({x, y, color: "#f0f0f0"});
+//                 }
+//             }
+//         }
+//     dispatch({picture: state.picture.draw(drawn)})
+// };
 
 // Creates a dropdown select menu listing the available tools.
 // Updates the state to reflect the tool the user has chosen.
