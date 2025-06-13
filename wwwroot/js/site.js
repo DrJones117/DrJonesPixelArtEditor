@@ -10,15 +10,17 @@ class Picture {
         this.height = height;
         this.pixels = pixels;
     }
+    // Finds the color of the pixel stored at the calculated index (x, y)
+    pixel(x, y) {
+        return this.pixels[x + y * this.width];
+    }
+
     // Creates an array representing the pixels and applys the starting color (grey).
     static empty(width, height, color) {
         let pixels = new Array(width * height).fill(color);
         return new Picture(width, height, pixels);
     }
-    // Finds the color of the pixel stored at the calculated index (x, y)
-    pixel(x, y) {
-        return this.pixels[x + y * this.width];
-    }
+
     // Returns a new Picture, but with updated pixel data as the user draws.
     draw(pixels) {
         let copy = this.pixels.slice();
@@ -89,6 +91,7 @@ function drawPicture(picture, canvas, scale, prevPicture) {
         {
             canvas.width = picture.width * scale;
             canvas.height = picture.height * scale;
+            prevPicture = null;
         }
     let cx = canvas.getContext("2d");
 
@@ -197,25 +200,6 @@ class PixelEditor {
     }
 }
 
-
-// Creates a dropdown select menu listin the available canvas sizes.
-// class CanvasSizeSelect {
-//     constructor(state, {sizes, dispatch}) {
-//         this.select = elt("select", {
-//             id: "canvas-size",
-//             onchange: () => dispatch({size: this.select.value})
-//         }, ...sizes.map(size => elt("option", {
-//             selected: size == state.size
-//         }, size)));
-//         this.dom = elt("label", {
-//             className: "tool-label"
-//         }, "Canvas Size: ", this.select);
-//     }
-//     syncState(state) {
-//         this.select.value = state.size;
-//     }
-// }
-
 class CanvasSizeSelect {
     constructor(state, {sizes, dispatch}) {
         this.select = elt("select", {
@@ -241,23 +225,6 @@ class CanvasSizeSelect {
         this.select.value = state.size;
     }
 }
-
-// function clearCanvas({x, y}, dispatch) {
-//     let backgroundColor = "#f0f0f0";
-//     let drawn = [{x, y, color: "#f0f0f0"}];
-//     for (let done = 0; done < drawn.length; done++) {
-//         for (let {dx, dy} of around) { // Here's where we use the directions defined by the "around" variable.
-//             let x = drawn[done].x + dx, y = drawn[done].y + dy;
-//             if (x >= 0 && x < state.picture.width &&
-//                 y >= 0 && y < state.picture.height &&
-//                 state.picture.pixel (x, y) == backgroundColor &&
-//                 !drawn.some(p => p.x == x && p.y == y)) {
-//                 drawn.push({x, y, color: "#f0f0f0"});
-//                 }
-//             }
-//         }
-//     dispatch({picture: state.picture.draw(drawn)})
-// };
 
 // Creates a dropdown select menu listing the available tools.
 // Updates the state to reflect the tool the user has chosen.
