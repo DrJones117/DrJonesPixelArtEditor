@@ -2,8 +2,6 @@
 
 // ====== The State ==================================================]
 
-// For the green box
-
 // Represents the area in which the user can draw.
 class Picture {
     // Defines the attributes of the Picture.
