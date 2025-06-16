@@ -371,11 +371,6 @@ function pick(pos, state, dispatch) {
 
 
 // ====== Saving and Loading ==================================================
-
-
-// Lets the user save their art to a PNG file.
-// Creates a temporary canvas and draws the picture onto it at a 1:1 scale.
-// Creates a download link with the image data and then clicks the link.
 class SaveButton {
     constructor(state) {
         this.picture = state.picture;
@@ -385,11 +380,17 @@ class SaveButton {
         }, "SAVE");
     }
     save() {
+        let fileName = prompt("Please name the picture:", "pixelArt");
+        if (!fileName) {
+            console.log("User canceled!");
+            return;
+        }
+        
         let canvas = elt("canvas");
         drawPicture(this.picture, canvas, 1);
         let link = elt("a", {
             href: canvas.toDataURL(),
-            download: "pixelart.png"
+            download: fileName
         });
         document.body.appendChild(link);
         link.click();
