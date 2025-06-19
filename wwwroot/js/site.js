@@ -387,7 +387,19 @@ class SaveButton {
         }
         
         let canvas = elt("canvas");
-        drawPicture(this.picture, canvas, 1);
+        canvas.width = this.picture.width;
+        canvas.height = this.picture.height;
+        let cx = canvas.getContext("2d");
+
+        for (let y = 0; y < this.picture.height; y++) {
+            for (let x = 0; x < this.picture.width; x++) {
+                let color = this.picture.pixel(x, y);
+                if (color !== "#f0f0f0" && color !== "#F0F0F0") {
+                    cx.fillStyle = color;
+                    cx.fillRect(x, y, 1, 1);
+                }
+            }
+        }
         let link = elt("a", {
             href: canvas.toDataURL(),
             download: fileName
