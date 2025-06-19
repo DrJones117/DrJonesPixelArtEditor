@@ -187,8 +187,8 @@ class PixelEditor {
         this.controls = controls.map(
             Control => new Control(state, config));
         this.dom = elt("div", {tabIndex: 0, className: "editor-container"},
-                        ...this.controls.reduce(
-                            (a, c) => a.concat(" ", c.dom), []),
+                        elt("div", {}, ...this.controls.reduce(
+                            (a, c) => a.concat(" ", c.dom), [])),
                         elt("br"), elt ("br"), elt ("br"), this.canvas.dom);
     }
     syncState(state) {
